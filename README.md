@@ -1,4 +1,4 @@
-//// README.md
+README.md
 # QuickChat
 
 A simple real-time chat application built with Node.js, Socket.IO, and React.
