@@ -1,0 +1,5 @@
+//// .gitignorej
+node_modules/
+.env
+client/node_modules/
+client/build/
