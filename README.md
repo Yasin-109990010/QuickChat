@@ -1,4 +1,3 @@
-README.md
 # QuickChat
 
 A simple real-time chat application built with Node.js, Socket.IO, and React.
@@ -26,4 +25,10 @@ npm start
 
 Visit http://localhost:3000 to view the client UI. The Socket.IO backend runs on http://localhost:4000 by default.
 
+### Project Structure
+
+- `client/` – React frontend
+- `server/` – Node/Express Socket.IO backend
+
 ----
+
