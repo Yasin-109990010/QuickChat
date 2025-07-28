@@ -39,7 +39,8 @@ function Chat() {
       >
         {chat.map((c, i) => (
           <div key={i}>
-            <strong>{c.author}:</strong> {c.message}
+            <strong>{c.author}</strong>
+            {` [${new Date(c.timestamp).toLocaleTimeString()}]: ${c.message}`}
           </div>
         ))}
       </div>
