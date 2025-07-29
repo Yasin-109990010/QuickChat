@@ -2,6 +2,8 @@ README.md
 # QuickChat
 
 A simple real-time chat application built with Node.js, Socket.IO, and React.
+The project is split into a `server` folder containing the Socket.IO backend
+and a `client` folder with the React interface.
 
 ## Getting Started
 
