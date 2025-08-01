@@ -7,6 +7,7 @@ const socket = io('http://localhost:4000');
 function Chat() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
+  const [username, setUsername] = useState('User');
 
   useEffect(() => {
     socket.emit('joinRoom', 'general');
@@ -21,13 +22,21 @@ function Chat() {
   const sendChat = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
-    socket.emit('chatMessage', { room: 'general', author: 'User', message });
+    socket.emit('chatMessage', { room: 'general', author: username || 'User', message });
     setMessage('');
   };
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <h2>QuickChat – General Room</h2>
+      <div style={{ marginBottom: '1rem' }}>
+        <input
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter your name"
+          style={{ width: '40%', padding: '.5rem' }}
+        />
+      </div>
       <div
         style={{
           border: '1px solid #ccc',
