@@ -1,4 +1,3 @@
-//// client/src/components/Chat.js
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
@@ -8,34 +7,55 @@ function Chat() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [username, setUsername] = useState('User');
+  const [room, setRoom] = useState('general');
+  const [roomInput, setRoomInput] = useState('general');
 
   useEffect(() => {
-    socket.emit('joinRoom', 'general');
-
-    socket.on('chatMessage', ({ author, message, timestamp }) => {
-      setChat(prev => [...prev, { author, message, timestamp }]);
-    });
-
-    return () => socket.disconnect();
+    const handleMessage = ({ author, message, timestamp }) => {
+      setChat((prev) => [...prev, { author, message, timestamp }]);
+    };
+    socket.on('chatMessage', handleMessage);
+    return () => {
+      socket.off('chatMessage', handleMessage);
+      socket.disconnect();
+    };
   }, []);
+
+  useEffect(() => {
+    socket.emit('joinRoom', room);
+    setChat([]);
+  }, [room]);
 
   const sendChat = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
-    socket.emit('chatMessage', { room: 'general', author: username || 'User', message });
+    socket.emit('chatMessage', { room, author: username || 'User', message });
     setMessage('');
   };
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <h2>QuickChat – General Room</h2>
+      <h2>QuickChat – {room} Room</h2>
       <div style={{ marginBottom: '1rem' }}>
         <input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your name"
-          style={{ width: '40%', padding: '.5rem' }}
+          style={{ width: '40%', padding: '.5rem', marginRight: '.5rem' }}
         />
+        <input
+          value={roomInput}
+          onChange={(e) => setRoomInput(e.target.value)}
+          placeholder="Room"
+          style={{ width: '30%', padding: '.5rem', marginRight: '.5rem' }}
+        />
+        <button
+          type="button"
+          onClick={() => setRoom(roomInput || 'general')}
+          style={{ padding: '.5rem 1rem' }}
+        >
+          Join
+        </button>
       </div>
       <div
         style={{
