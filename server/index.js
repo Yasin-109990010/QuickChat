@@ -17,6 +17,12 @@ io.on('connection', (socket) => {
   console.log('User connected');
 
   socket.on('joinRoom', (room) => {
+    // Ensure the client leaves any previously joined rooms
+    for (const joinedRoom of socket.rooms) {
+      if (joinedRoom !== socket.id) {
+        socket.leave(joinedRoom);
+      }
+    }
     socket.join(room);
   });
 
