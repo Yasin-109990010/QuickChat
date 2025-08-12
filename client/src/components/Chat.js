@@ -17,7 +17,6 @@ function Chat() {
     socket.on('chatMessage', handleMessage);
     return () => {
       socket.off('chatMessage', handleMessage);
-      socket.disconnect();
     };
   }, []);
 
